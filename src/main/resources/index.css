@@ -1,0 +1,75 @@
+@font-face {
+    font-family: "Montserrat";
+    src: url('fonts/Montserrat-Regular.ttf');
+}
+
+.root {
+    -fx-font-family: "Montserrat";
+    -fx-font-size: 13pt;
+}
+
+.message {
+    -fx-font-size: 9pt;
+}
+
+.text-area {
+    text-area-background: rgba(0, 0, 0, 0);
+    -fx-text-fill: #B3AD5F;
+}
+
+.text-area .content{
+    -fx-font-family: "Montserrat";
+    -fx-font-size: 13pt;
+/*    -fx-border-color: grey; */
+    -fx-padding: 10px;
+    -fx-text-fill: #B3AD5F;
+    -fx-background-color: text-area-background ;
+}
+
+.text-area:focused {
+/*    -fx-border-color: #4169e1; */ /* royalblue */
+}
+
+.welcome {
+    -fx-spacing: 10px;
+    -fx-padding: 20px;
+    -fx-alignment: center;
+}
+
+.shool {
+   -fx-icon-size: 64px;
+}
+
+.welcome {
+    -fx-icon-size: 24px;
+}
+
+/*
+.welcome .ikonli-font-icon {
+    -fx-icon-size: 24px;
+}
+*/
+
+.welcome .label {
+    -fx-wrap-text: true;
+    -fx-pref-width: 400px;
+    -fx-text-alignment: center;
+}
+
+/* mora da bi button meni bio bez strelice TWEAK.NO_ARROW */
+.menu-button > .arrow-button { -fx-padding: 0; } .menu-button > .arrow-button > .arrow {-fx-padding: 0;}
+
+.custom-text-field:focused {
+     /*-fx-text-fill:Brown;*/
+}
+
+ /* Popravka za pozadinu legende jer je atlantafx u mobile verziji ne postavlja pravilno */
+.chart-legend{
+    -fx-background-color:rgba(0, 0, 0, 0);
+ }
+
+ .context-menu {
+     -fx-pref-width: 170;
+ /*   -fx-background-color:red; */
+ /*   -fx-text-alignment: center; */
+ }

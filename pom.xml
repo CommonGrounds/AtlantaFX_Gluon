@@ -1,0 +1,317 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>com.mycompany</groupId>
+    <artifactId>AtlantaFX_Gluon</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
+        <maven.compiler.release>17</maven.compiler.release>
+        <maven.compiler.version>3.13.0</maven.compiler.version>
+        <!-- <GRAALVM_HOME>/home/ryzen/GRAAL_VM/graalvm-java23-linux-amd64-gluon-23+25.1-dev</GRAALVM_HOME> -->
+        <GRAALVM_HOME>/home/ryzen/GRAAL_VM/graalvm-svm-java17-linux-gluon-22.1.0.1-Final</GRAALVM_HOME>
+        <javafx.version>23.0.1</javafx.version>
+        <connect.version>2.0.1</connect.version>
+        <attach.version>4.0.21</attach.version>
+        <javafx.plugin.version>0.0.8</javafx.plugin.version>
+        <gluonfx.plugin.version>1.0.23</gluonfx.plugin.version>
+        <lib.atlantafx.version>2.0.1</lib.atlantafx.version>
+        <lib.ikonli.version>12.3.1</lib.ikonli.version>
+        <gluonfx.target>host</gluonfx.target>
+<!--  <main.class>com.mycompany.atlantafx_gluon/com.mycompany.atlantafx_gluon.App</main.class> -->  <!-- Launcher kao main class zbog mvn package (fat jar) -->
+        <main.class>com.mycompany.atlantafx_gluon</main.class>  <!-- .Launcher dodati kao main class zbog mvn package, za sve ostalo .App dodato u plugin-u -->
+    </properties>
+    <dependencies>
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-base</artifactId>
+            <version>${javafx.version}</version>
+            <!-- <classifier>win</classifier>  -->  <!-- ukoliko zelim pakovanje za win na linuxu -->
+        </dependency>
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-graphics</artifactId>
+            <version>${javafx.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-controls</artifactId>
+            <version>${javafx.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.gluonhq</groupId>
+            <artifactId>connect</artifactId>
+            <version>${connect.version}</version>
+        </dependency>
+        <!-- Potrebno za runtime -->
+        <dependency>
+            <groupId>org.glassfish</groupId>
+            <artifactId>jakarta.json</artifactId>
+            <version>1.1.6</version>
+            <classifier>module</classifier>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.gluonhq.attach</groupId>
+            <artifactId>storage</artifactId>
+            <version>${attach.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.gluonhq.attach</groupId>
+            <artifactId>util</artifactId>
+            <version>${attach.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.gluonhq.attach</groupId>
+            <artifactId>display</artifactId>
+            <version>${attach.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.gluonhq.attach</groupId>
+            <artifactId>device</artifactId>
+            <version>${attach.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.gluonhq.attach</groupId>
+            <artifactId>browser</artifactId>
+            <version>${attach.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.gluonhq.attach</groupId>
+            <artifactId>connectivity</artifactId>
+            <version>${attach.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.github.mkpaz</groupId>
+            <artifactId>atlantafx-base</artifactId>
+            <version>${lib.atlantafx.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.kordamp.ikonli</groupId>
+            <artifactId>ikonli-javafx</artifactId>
+            <version>${lib.ikonli.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.kordamp.ikonli</groupId>
+            <artifactId>ikonli-materialdesign2-pack</artifactId>
+            <version>${lib.ikonli.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.kordamp.ikonli</groupId>
+            <artifactId>ikonli-material2-pack</artifactId>
+            <version>${lib.ikonli.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.kordamp.ikonli</groupId>
+            <artifactId>ikonli-feather-pack</artifactId>
+            <version>${lib.ikonli.version}</version>
+            <type>jar</type>
+        </dependency>
+        <dependency>
+            <groupId>org.kordamp.ikonli</groupId>
+            <artifactId>ikonli-fontawesome5-pack</artifactId>
+            <version>${lib.ikonli.version}</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/net.datafaker/datafaker -->
+        <dependency>
+            <groupId>net.datafaker</groupId>
+            <artifactId>datafaker</artifactId>
+            <version>2.4.0</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/com.github.oshi/oshi-core -->
+        <dependency>
+            <groupId>com.github.oshi</groupId>
+            <artifactId>oshi-core</artifactId>
+            <version>6.6.5</version>
+            <!--
+            <exclusions>
+                <exclusion>
+                    <groupId>*</groupId>
+                    <artifactId>*</artifactId>
+                </exclusion>
+            </exclusions>
+            -->
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/org.slf4j/slf4j-api -->
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>2.0.16</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/net.java.dev.jna/jna -->
+        <dependency>
+            <groupId>net.java.dev.jna</groupId>
+            <artifactId>jna</artifactId>
+            <version>5.15.0</version>
+            <!-- <type>aar</type> -->
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/net.java.dev.jna/jna-platform -->
+        <dependency>
+            <groupId>net.java.dev.jna</groupId>
+            <artifactId>jna-platform</artifactId>
+            <version>5.15.0</version>
+        </dependency>
+
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <!-- koristi se sa mvn package -->
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>  <!-- maven-shade-plugin zbog mvn package (fat jar) -->
+                <version>3.6.0</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                        <configuration>
+                            <transformers>
+                                <transformer
+                                        implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                                    <mainClass>${main.class}.Launcher</mainClass>  <!-- dodajemo .Launcher zbog mvn package (fat jar) -->
+                                </transformer>
+                                <transformer
+                                        implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer"/>
+                            </transformers>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <!-- koristi se sa mvn javafx:run i mvn gluonfx:run za javac (default-compile)-->
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>${maven.compiler.version}</version>
+                <configuration>
+                    <!--
+                    <compilerArgs>
+                        <arg>-add-exports</arg>
+                        <arg>java.management/sun.management=ALL-UNNAMED</arg>
+                    </compilerArgs>
+                    -->
+                    <source>${maven.compiler.source}</source>
+                    <target>${maven.compiler.target}</target>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <!-- koristi se sa mvn javafx:run-->
+                <groupId>org.openjfx</groupId>
+                <artifactId>javafx-maven-plugin</artifactId>
+                <version>${javafx.plugin.version}</version>
+                <configuration>
+                    <stripDebug>true</stripDebug>
+                    <compress>2</compress>
+                    <noHeaderFiles>true</noHeaderFiles>
+                    <noManPages>true</noManPages>
+                    <mainClass>${main.class}.App</mainClass> <!-- dodajemo .App zbog javafx:run -->
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <!-- koristi se sa mvn gluonfx:run-->
+                <groupId>com.gluonhq</groupId>
+                <artifactId>gluonfx-maven-plugin</artifactId>
+                <version>${gluonfx.plugin.version}</version>
+                <configuration>
+                    <!-- <javaStaticSdkVersion>24-2</javaStaticSdkVersion>  -->
+                    <!-- <javafxStaticSdkVersion>24-ea+7.1</javafxStaticSdkVersion>  -->
+                    <!-- <javaStaticSdkVersion>11-ea+10</javaStaticSdkVersion>  -->
+                    <!-- <javafxStaticSdkVersion>21-ea+11.2</javafxStaticSdkVersion>  -->
+                    <enableSWRendering>false</enableSWRendering>
+                    <target>${gluonfx.target}</target>
+                    <mainClass>${main.class}.App</mainClass>  <!-- dodajemo .App zbog gluonfx -->
+                    <!--
+                    <nativeImageArgs>
+                        <nativeImageArg>-static</nativeImageArg>
+                        <nativeImageArg>-libc=musl</nativeImageArg>
+                    </nativeImageArgs>
+                    -->
+                    <!-- Obavezno za jna lib ( oshi ) -->
+                    <nativeImageArgs>
+                        <nativeImageArg>--initialize-at-build-time=com.sun.jna.Structure</nativeImageArg>
+                        <nativeImageArg>--initialize-at-build-time=com.sun.jna.Callback</nativeImageArg>
+                        <nativeImageArg>--initialize-at-build-time=com.sun.jna.CallbackReference</nativeImageArg>
+                        <nativeImageArg>--initialize-at-build-time=com.sun.jna.NativeLibrary</nativeImageArg>
+                        <nativeImageArg>--initialize-at-build-time=com.sun.jna.Platform</nativeImageArg>
+                        <nativeImageArg>--initialize-at-build-time=com.sun.jna.Native</nativeImageArg>
+                        <nativeImageArg>--initialize-at-build-time=com.sun.jna.CallbackReference$AttachOptions</nativeImageArg>
+                    </nativeImageArgs>
+                    <!-- Od plugina 1.0.24 i graalvm 23+ i javafx 23+ dostupan je buildArgs -->
+                    <!--
+                    <buildArgs>
+                        <buildArg>-static</buildArg>
+                        <buildArg>-libc=musl</buildArg>
+                    </buildArgs>
+                    -->
+                    <attachList>
+                        <list>display</list>
+                        <list>device</list>
+                        <list>browser</list>
+                        <list>connectivity</list>
+                        <list>storage</list>
+                        <list>util</list>
+                    </attachList>
+                    <graalvmHome>${GRAALVM_HOME}</graalvmHome>
+                    <!--<bundlesList>
+                        <list>com.asgteach.accelerometer</list>
+                    </bundlesList>-->
+                    <appIdentifier>com.mycompany.atlantafx_gluon.App</appIdentifier>
+                    <reflectionList>
+                        <!--<list>org.kordamp.ikonli.javafx.FontIcon</list>  -->
+                        <list>com.mycompany.atlantafx_gluon.User</list>  <!-- Obavezno za klasu koju koristi gluon connect -->
+                        <list>net.datafaker.Faker</list>
+                    </reflectionList>
+                    <verbose>false</verbose>
+                    <releaseConfiguration>
+                    </releaseConfiguration>
+                    <!-- Obavezno za resource fajlove tipa .properties i sl. ( i18n ) -->
+                    <!--
+                    <resourcesList>
+                        <list>dev/java4now/[^/]+$</list>
+                    </resourcesList>
+                    -->
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+    <profiles>
+        <profile>
+            <id>android</id>
+            <properties>
+                <gluonfx.target>android</gluonfx.target>
+            </properties>
+        </profile>
+        <profile>
+            <id>ios</id>
+            <properties>
+                <gluonfx.target>ios</gluonfx.target>
+            </properties>
+        </profile>
+    </profiles>
+
+    <repositories>
+        <repository>
+            <id>gluon-releases</id>
+            <url>https://nexus.gluonhq.com/nexus/content/repositories/releases/</url>
+        </repository>
+        <repository>
+            <id>snapshots</id>
+            <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
+        </repository>
+    </repositories>
+    <pluginRepositories>
+        <pluginRepository>
+            <id>snapshots</id>
+            <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
+        </pluginRepository>
+    </pluginRepositories>
+
+</project>

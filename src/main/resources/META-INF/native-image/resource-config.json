@@ -1,0 +1,30 @@
+{
+  "resources":{
+  "includes":[
+    {
+      "pattern":"\\Qatlantafx/base/theme/cupertino-dark.bss\\E"
+    }, 
+    {
+      "pattern":"\\Qatlantafx/base/theme/primer-dark.bss\\E"
+    }, 
+    {
+      "pattern":"\\Qindex.css\\E"
+    }
+  ]},
+  "bundles":[
+    {
+      "name":"com.sun.javafx.tk.quantum.QuantumMessagesBundle",
+      "locales":[
+        "", 
+        "und"
+      ]
+    }, 
+    {
+      "name":"com/sun/javafx/scene/control/skin/resources/controls",
+      "locales":[
+        "", 
+        "und"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,35 @@
+.default-color0.chart-pie { -fx-pie-color: #563429; } /* kiwi brown */
+.default-color1.chart-pie { -fx-pie-color: #DDA0DD; } /* plum */
+.default-color2.chart-pie { -fx-pie-color: #00FF00; }   /*Default lime */
+
+.chart {
+    -fx-padding: 10px;
+ /*    -fx-background-image: url("assets/icons/app-icon.png"); */
+}
+.chart-content {
+    -fx-padding: 30px;
+}
+
+.chart-title {
+  -fx-text-fill: #4682b4;
+  -fx-font-size: 1.6em;
+}
+
+.axis-label {
+  -fx-text-fill: #4682b4;
+}
+
+/*
+.chart-legend {
+   -fx-background-color:  transparent;
+   -fx-padding: 20px;
+}
+
+.chart-legend-item-symbol{
+   -fx-background-radius: 0;
+}
+
+.chart-legend-item{
+    -fx-text-fill: #191970;
+}
+*/
