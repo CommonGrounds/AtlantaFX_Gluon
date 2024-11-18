@@ -5,9 +5,9 @@ Monkey testing AtlantaFX Themes implemented on Gluon Platform ( Desktop, Android
 <p align="center">
 <img src="https://raw.githubusercontent.com/CommonGrounds/AtlantaFX_Gluon/master/.screenshots/base.png" alt="blueprints"/><br/>
 <img src="https://raw.githubusercontent.com/CommonGrounds/AtlantaFX_Gluon/master/.screenshots/card.png" alt="overview"/><br/>
-<img src="https://raw.githubusercontent.com/AtlantaFX_Gluon/master/.screenshots/chart.png" alt="page"/><br/>
-<img src="https://raw.githubusercontent.com/AtlantaFX_Gluon/master/.screenshots/left.png" alt="page"/><br/>
-<img src="https://raw.githubusercontent.com/AtlantaFX_Gluon/master/.screenshots/notification.png" alt="page"/><br/>
+<img src="https://raw.githubusercontent.com/CommonGrounds/AtlantaFX_Gluon/master/.screenshots/chart.png" alt="page"/><br/>
+<img src="https://raw.githubusercontent.com/CommonGrounds/AtlantaFX_Gluon/master/.screenshots/left.png" alt="page"/><br/>
+<img src="https://raw.githubusercontent.com/CommonGrounds/AtlantaFX_Gluon/master/.screenshots/notification.png" alt="page"/><br/>
 </p>
 
 ## Documentation
