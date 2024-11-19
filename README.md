@@ -1,11 +1,20 @@
 # AtlantaFX Gluon
 
-Monkey testing AtlantaFX Themes implemented on Gluon Platform ( Desktop, Android, Ios ), using gluon
-attach services ( display, browser,keyboard, device, connectivity, storage) and gluon connect.
+Monkey testing [AtlantaFX](https://github.com/mkpaz/atlantafx) Themes implemented on [Gluon](https://gluonhq.com/services) Platform ( Desktop, Android, Ios ), using gluon
+[attach](https://gluonhq.com/products/mobile/attach/) services ( display, browser,keyboard, device, connectivity, storage) and gluon 
+[connect](https://docs.gluonhq.com/#_file_provider) library.<br>
+
 Use :
 ```
- scene.getStylesheets().add(theme.getUserAgentStylesheet());
+scene.getStylesheets().add(theme.getUserAgentStylesheet());
 ```
+in order to use default Android soft keyboard with TextField, TextArea controls.
+
+If you use [AtlantaFX](https://github.com/mkpaz/atlantafx) default approach:
+```
+Application.setUserAgentStylesheet()
+```
+Android ( I only tested on Android ) soft keyboard doesn't show up so you will have to create custom one.
 
 <p align="center">
 <img src="https://raw.githubusercontent.com/CommonGrounds/AtlantaFX_Gluon/master/.screenshots/base.png" alt="blueprints"/><br/>
@@ -17,7 +26,7 @@ Use :
 
 ## Documentation
 
-Read how to create Gluon samples step by step [here](https://docs.gluonhq.com/samples)
+Read how to create Gluon samples step by step [here](https://docs.gluonhq.com/)
 
 ## Quick Instructions
 
