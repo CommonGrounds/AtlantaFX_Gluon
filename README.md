@@ -1,6 +1,11 @@
 # AtlantaFX Gluon
 
-Monkey testing AtlantaFX Themes implemented on Gluon Platform ( Desktop, Android, Ios )
+Monkey testing AtlantaFX Themes implemented on Gluon Platform ( Desktop, Android, Ios ), using gluon
+attach services ( display, browser,keyboard, device, connectivity, storage) and gluon connect.
+Use :
+```
+ scene.getStylesheets().add(theme.getUserAgentStylesheet());
+```
 
 <p align="center">
 <img src="https://raw.githubusercontent.com/CommonGrounds/AtlantaFX_Gluon/master/.screenshots/base.png" alt="blueprints"/><br/>
