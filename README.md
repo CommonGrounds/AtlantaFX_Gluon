@@ -16,8 +16,8 @@ Application.setUserAgentStylesheet()
 ```
 Android ( I only tested on Android ) soft keyboard doesn't show up so you will have to create custom one.
 
-![1](.screenshots/base.png) ![2](.screenshots/card.png)
-![3](.screenshots/notification.png) ![4](.screenshots/left.png)
+![1](.screenshots/base.png) ![2](.screenshots/left.png)
+![3](.screenshots/notification.png) ![4](.screenshots/card.png)
 ![5](.screenshots/chart.png)
 
 ## Documentation
