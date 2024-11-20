@@ -14,7 +14,7 @@ If you use [AtlantaFX](https://github.com/mkpaz/atlantafx) default approach:
 ```
 Application.setUserAgentStylesheet(theme.getUserAgentStylesheet())
 ```
-Android ( I only tested on Android ) soft keyboard doesn't show up so you will have to create custom one.
+Android ( I only tested on Android ) soft keyboard doesn't show up on TextFied, TextArey controls<br> so you will have to create custom one.
 
 ![1](.screenshots/base.png) ![2](.screenshots/left.png)
 ![3](.screenshots/notification.png) ![4](.screenshots/card.png)
