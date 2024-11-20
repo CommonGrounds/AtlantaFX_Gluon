@@ -12,7 +12,7 @@ in order to use default Android soft keyboard with TextField, TextArea controls.
 
 If you use [AtlantaFX](https://github.com/mkpaz/atlantafx) default approach:
 ```
-Application.setUserAgentStylesheet()
+Application.setUserAgentStylesheet(theme.getUserAgentStylesheet())
 ```
 Android ( I only tested on Android ) soft keyboard doesn't show up so you will have to create custom one.
 
