@@ -1,7 +1,9 @@
-# AtlantaFX Gluon
+# <p style="text-align:center;">AtlantaFX Gluon </p>
 
+<p align="center">
 <a href="https://github.com/CommonGrounds/AtlantaFX_Gluon/stargazers"><img src="https://img.shields.io/github/license/CommonGrounds/AtlantaFX_Gluon?style=for-the-badge" alt="License"></a>
 <a href="https://github.com/CommonGrounds/AtlantaFX_Gluon/issues"><img src="https://img.shields.io/github/issues/CommonGrounds/AtlantaFX_Gluon?style=for-the-badge" alt="Open Issues"></a>
+</p>
 
 Monkey testing [AtlantaFX](https://github.com/mkpaz/atlantafx) Themes implemented on [Gluon](https://gluonhq.com/services) Platform ( Desktop, Android, Ios ), using gluon
 [attach](https://gluonhq.com/products/mobile/attach/) services ( display, browser,keyboard, device, connectivity, storage) and gluon 
