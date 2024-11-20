@@ -16,13 +16,9 @@ Application.setUserAgentStylesheet()
 ```
 Android ( I only tested on Android ) soft keyboard doesn't show up so you will have to create custom one.
 
-<p align="center">
-<img src="https://raw.githubusercontent.com/CommonGrounds/AtlantaFX_Gluon/master/.screenshots/base.png" alt="blueprints"/><br/>
-<img src="https://raw.githubusercontent.com/CommonGrounds/AtlantaFX_Gluon/master/.screenshots/card.png" alt="overview"/><br/>
-<img src="https://raw.githubusercontent.com/CommonGrounds/AtlantaFX_Gluon/master/.screenshots/chart.png" alt="page"/><br/>
-<img src="https://raw.githubusercontent.com/CommonGrounds/AtlantaFX_Gluon/master/.screenshots/left.png" alt="page"/><br/>
-<img src="https://raw.githubusercontent.com/CommonGrounds/AtlantaFX_Gluon/master/.screenshots/notification.png" alt="page"/><br/>
-</p>
+![1](.screenshots/base.png) ![2](.screenshots/card.png)
+![3](.screenshots/notification.png) ![4](.screenshots/left.png)
+![5](.screenshots/chart.png)
 
 ## Documentation
 
