@@ -6,7 +6,7 @@
 </p>
 
 Monkey testing [AtlantaFX](https://github.com/mkpaz/atlantafx) Themes implemented on [Gluon](https://gluonhq.com/services) Platform ( Desktop, Android, Ios ), using gluon
-[attach](https://gluonhq.com/products/mobile/attach/) services ( display, browser,keyboard, device, connectivity, storage) and gluon 
+[attach](https://gluonhq.com/products/mobile/attach/) services ( display, browser, keyboard, device, connectivity, storage ) and gluon 
 [connect](https://docs.gluonhq.com/#_file_provider) library.<br>
 
 Use :
