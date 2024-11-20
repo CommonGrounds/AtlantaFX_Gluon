@@ -11,9 +11,9 @@ scene.getStylesheets().add(theme.getUserAgentStylesheet());
 in order to use default Android soft keyboard with TextField, TextArea controls.
 
 If you use [AtlantaFX](https://github.com/mkpaz/atlantafx) default approach:
-```
-Application.setUserAgentStylesheet(theme.getUserAgentStylesheet())
-```
+
+<code> Application.setUserAgentStylesheet(theme.getUserAgentStylesheet())</code>
+
 Android ( I only tested on Android ) default soft keyboard doesn't show up on TextFied, TextArey controls<br> so you will have to create custom one.
 
 ![1](.screenshots/base.png) ![2](.screenshots/left.png)
