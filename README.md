@@ -1,4 +1,4 @@
-# <p style="text-align:center;">AtlantaFX Gluon</p>
+# <h1 style="text-align:center;">AtlantaFX Gluon</h1>
 
 <p align="center">
 <a href="https://github.com/CommonGrounds/AtlantaFX_Gluon/stargazers"><img src="https://img.shields.io/github/license/CommonGrounds/AtlantaFX_Gluon?style=for-the-badge" alt="License"></a>
