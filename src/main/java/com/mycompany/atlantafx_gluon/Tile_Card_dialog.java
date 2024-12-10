@@ -10,6 +10,7 @@ import atlantafx.base.theme.Tweaks;
 import atlantafx.base.util.BBCodeParser;
 import javafx.event.ActionEvent;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -21,14 +22,23 @@ import org.kordamp.ikonli.javafx.FontIcon;
 import org.kordamp.ikonli.material2.Material2AL;
 import org.kordamp.ikonli.material2.Material2MZ;
 
+import com.gluonhq.emoji.Emoji;
+import com.gluonhq.emoji.EmojiData;
+import com.gluonhq.emoji.util.TextUtils;
+
+import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 public class Tile_Card_dialog {
 
+    static List<Node> image_nodes;
+    static List<Node> text_nodes;
+
     static Card card1;
     static TextFlow text_flow;
-    public static final String orig_string = "Card Body with some text \uD83D\uDC31 - " +
-            "koji bi trebao da se automatski formatira sa -fx-wrap-text: true; u .css-u";
+    public static final String orig_string = "Card Body with emoji mouse image and text - " +
+            "koji bi trebao cat da se automatski formatira wave sa -fx-wrap-text: true; bicyclist u .css-u";
 
     @SuppressWarnings("never used")
     public static Tile tile_example() {
@@ -135,8 +145,14 @@ public class Tile_Card_dialog {
         var dialogCard = new Card();
         dialogCard.setHeader(new Tile(
                 "Dialog in Card",
-                " description - Are you sure. "
-                        + "You can access this file for 7 days in your trash."
+                "description - Support BBCode\n\n"
+                        + """
+                        [ul]
+                        [li][color=yellow]first[/color][/li]
+                        [li][color=red]second[/color][/li]
+                        [li][color=green]third[/color][/li]
+                       [/ul]
+                       """
         ));
         dialogCard.setBody(new CheckBox("Body - Do not show it anymore"));
 
@@ -150,7 +166,7 @@ public class Tile_Card_dialog {
         var dialogFooter = new HBox(20, confirmBtn, cancelBtn);
         dialogCard.setFooter(dialogFooter);
 
-//-----------------------------------------------------
+//-------------------------TILE IN CARD ----------------------------
         card1 = new Card();
         //------------ CARD HEADER - TILE -------------
         var avatar1 = new ImageView(new Image(
@@ -195,7 +211,10 @@ public class Tile_Card_dialog {
         Text txt = new Text(orig_string);
         text_flow = BBCodeParser.createFormattedText(txt.getText());
         text_flow.setMaxWidth(330); // text se prelama auto na ovu sirinu sa -fx-wrap-text: true; u css-u ( za TextFlow )
-        card1.setBody(text_flow);
+//        HBox body_box = new HBox(create_emoji_image("\uD83D\uDC31"),text_flow);      // create single ImageView from emoji text
+        var body_box = create_image_text_flow();
+        card1.setBody(body_box);                                                       // emoji + TextFlow
+//        card1.setBody(text_flow);                                                    // samo TextFlow
 
 //---------------- CARD FOOTER -------------------
         var hbox = new HBox(10,
@@ -205,7 +224,7 @@ public class Tile_Card_dialog {
                 new FontIcon(Material2MZ.SHARE),
                 new Label("92")
         );
-        var footer2 = new VBox(new Separator(), hbox);
+        var footer2 = new VBox(hbox , new Separator());
         footer2.setAlignment(Pos.CENTER_LEFT);
         card1.setFooter(footer2);
 
@@ -226,10 +245,61 @@ public class Tile_Card_dialog {
                 text_flow.setMaxWidth(330); // obavezno pre setBody
                 card1.setBody(text_flow);
             }catch(Exception exp){
-                System.out.println("Search: : " + exp.getMessage());
+                System.out.println("Search: " + exp.getMessage());
             }
         });
 //-----------------END CARD --------------------
         return new VBox(20, tweetCard, dialogCard, card1);
+    }
+
+
+    //-----------------------------------
+    // Vraca samo jedan ImageView from string ( vawe , cat , etc )
+    private static Node create_emoji_image(String word){
+        StringBuilder unicodeText = new StringBuilder();
+        Optional<Emoji> optionalEmoji = EmojiData.emojiFromShortName(word);
+        unicodeText.append(optionalEmoji.isPresent() ? optionalEmoji.get().character() : word);
+        unicodeText.append(" ");
+        List<Node> nodes = TextUtils.convertToTextAndImageNodes(unicodeText.toString());
+        if(nodes.get(0) instanceof ImageView){
+            System.out.println("We have emoji");
+            return nodes.get(0);
+        }else{
+            System.out.println("No emoji");
+            return null;
+        }
+    }
+
+
+    private static String createUnicodeText(String nv) {
+        StringBuilder unicodeText = new StringBuilder();
+        String[] words = nv.split(" ");
+        System.out.println("words size: " + words.length);
+        for (String word : words) {
+            Optional<Emoji> optionalEmoji = EmojiData.emojiFromShortName(word);
+            unicodeText.append(optionalEmoji.isPresent() ? optionalEmoji.get().character() : word);
+            unicodeText.append(" ");
+        }
+        return unicodeText.toString();
+    }
+
+
+    private static FlowPane create_image_text_flow(){
+        String unicodeText = createUnicodeText(orig_string);
+        List<Node> nodes = TextUtils.convertToTextAndImageNodes(unicodeText);
+
+        for (int i =0;i<nodes.size();i++) {
+            if(nodes.get(i) instanceof Text){
+                TextFlow flow = new TextFlow((Text)nodes.get(i));
+                nodes.remove(nodes.get(i));
+                nodes.add(i,flow);
+            }
+        }
+
+        FlowPane flowPane = new FlowPane();
+        flowPane.setPrefWrapLength(330);
+        flowPane.getChildren().setAll(nodes);
+
+        return flowPane;
     }
 }
