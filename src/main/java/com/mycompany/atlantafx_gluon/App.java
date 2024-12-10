@@ -293,7 +293,9 @@ public class App extends Application {
             modalPane.show(settingsDialog_2);
         });
         //--------------------------------------------------
-        var card_dialog = tile_card_dialog();
+        var gridScroll = new ScrollPane(tile_card_dialog());    // IMPORTANT - Use ScrollPane za ceo VBox
+        gridScroll.setFitToWidth(true);
+        var card_dialog = gridScroll;
         var card_Btn = new Button(null, stackingExample());
         card_Btn.getStyleClass().addAll(
                 Styles.BUTTON_CIRCLE, Styles.FLAT, Styles.LARGE

@@ -21,4 +21,6 @@ module com.mycompany.atlantafx_gluon {
     requires com.gluonhq.attach.util;
     requires com.gluonhq.connect;
     requires com.sun.jna;
+    requires eu.hansolo.tilesfx;
+    requires com.gluonhq.emoji;
 }

@@ -60,11 +60,17 @@ public class System_Info {
     static GluonObservableObject<User> user;
     static FileClient fileClient;
 
-    public static final File ROOT_DIR;
+    public static File ROOT_DIR;
     static {
-        ROOT_DIR = Services.get(StorageService.class)
-                .flatMap(StorageService::getPrivateStorage)
-                .orElseThrow(() -> new RuntimeException("Error retrieving private storage"));
+        try{
+            ROOT_DIR = Services.get(StorageService.class)
+                    .flatMap(StorageService::getPrivateStorage)
+                    .orElseThrow(() -> new RuntimeException("Error retrieving private storage"));
+        } catch ( Exception e){                           // Ako pokrecemo sa mvn javafx:run
+            String home = System.getProperty("user.home");
+            ROOT_DIR = new File( home );         // gluon folder ne postoji ako ga ne kreiramo uz glunfx plugin - samo home as default
+        }
+
     }
 
 

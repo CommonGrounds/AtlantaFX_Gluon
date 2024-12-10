@@ -5,6 +5,8 @@ import atlantafx.base.controls.Notification;
 import atlantafx.base.controls.Spacer;
 import atlantafx.base.theme.Styles;
 import atlantafx.base.util.Animations;
+import eu.hansolo.tilesfx.Tile;
+import eu.hansolo.tilesfx.TileBuilder;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.*;
@@ -23,6 +25,19 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Supplier;
 
 public class Settings_dialog_2 {
+
+    private static final Tile fireSmokeTile = TileBuilder.create()
+            .skinType(Tile.SkinType.FIRE_SMOKE)
+            //        .prefSize(300, 300)
+            .title("FireSmoke Tile")
+            .text("CPU temp")
+            .unit("\u00b0C")
+            .threshold(40)       // triggers the fire and smoke effect
+            .decimals(0)
+            .animated(false)   // da bi odmah poceo sa animacijom postaviti na false
+            .running(true)      // a running postaviti na true
+            .value(41.1)
+            .build();
 
     //------------------------------------------------------------------
     public static Accordion Accordion_box() {
@@ -69,12 +84,14 @@ public class Settings_dialog_2 {
         );
         var content = new VBox(25, gen.get(), footer);
         tp1.setContent(content);
+        tp1.setCollapsible(true);              // default
+//        tp1.setExpanded(false);   // default true ( najsigurnije je deinisati zeljeno stanje odmah )
         tp1.getStyleClass().add(Styles.DENSE);
 
         var tp2 = new TitledPane("TitledPane 2", gen.get());
         tp2.getStyleClass().add(Styles.DENSE);
 
-        var tp3 = new TitledPane("TitledPane 3", gen.get());
+        var tp3 = new TitledPane("TileFX TitledPane", fireSmokeTile);
         tp3.getStyleClass().add(Styles.DENSE);
 
         return new Accordion(tp1, tp2, tp3);

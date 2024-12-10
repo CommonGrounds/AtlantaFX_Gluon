@@ -19,6 +19,7 @@
         <gluonfx.plugin.version>1.0.23</gluonfx.plugin.version>
         <lib.atlantafx.version>2.0.1</lib.atlantafx.version>
         <lib.ikonli.version>12.3.1</lib.ikonli.version>
+        <tilesfx.version>17.1.31</tilesfx.version>
         <gluonfx.target>host</gluonfx.target>
 <!--  <main.class>com.mycompany.atlantafx_gluon/com.mycompany.atlantafx_gluon.App</main.class> -->  <!-- Launcher kao main class zbog mvn package (fat jar) -->
         <main.class>com.mycompany.atlantafx_gluon</main.class>  <!-- .Launcher dodati kao main class zbog mvn package, za sve ostalo .App dodato u plugin-u -->
@@ -45,13 +46,18 @@
             <artifactId>connect</artifactId>
             <version>${connect.version}</version>
         </dependency>
-        <!-- Potrebno za runtime -->
+        <!-- Potrebno za runtime zbog connect -->
         <dependency>
             <groupId>org.glassfish</groupId>
             <artifactId>jakarta.json</artifactId>
             <version>1.1.6</version>
             <classifier>module</classifier>
             <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.gluonhq</groupId>
+            <artifactId>emoji</artifactId>
+            <version>1.0.1</version>
         </dependency>
         <dependency>
             <groupId>com.gluonhq.attach</groupId>
@@ -120,19 +126,23 @@
             <artifactId>datafaker</artifactId>
             <version>2.4.0</version>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/eu.hansolo/tilesfx -->
+        <dependency>
+            <groupId>eu.hansolo</groupId>
+            <artifactId>tilesfx</artifactId>
+            <version>${tilesfx.version}</version>
+        </dependency>
         <!-- https://mvnrepository.com/artifact/com.github.oshi/oshi-core -->
         <dependency>
             <groupId>com.github.oshi</groupId>
             <artifactId>oshi-core</artifactId>
             <version>6.6.5</version>
-            <!--
             <exclusions>
                 <exclusion>
-                    <groupId>*</groupId>
+                    <groupId>net.java.dev.jna</groupId>
                     <artifactId>*</artifactId>
                 </exclusion>
             </exclusions>
-            -->
         </dependency>
         <!-- https://mvnrepository.com/artifact/org.slf4j/slf4j-api -->
         <dependency>
@@ -145,13 +155,25 @@
             <groupId>net.java.dev.jna</groupId>
             <artifactId>jna</artifactId>
             <version>5.15.0</version>
-            <!-- <type>aar</type> -->
+            <exclusions>
+                <exclusion>
+                    <groupId>com.github.oshi</groupId>
+                    <artifactId>*</artifactId>
+                </exclusion>
+            </exclusions>
+            <type>aar</type>
         </dependency>
         <!-- https://mvnrepository.com/artifact/net.java.dev.jna/jna-platform -->
         <dependency>
             <groupId>net.java.dev.jna</groupId>
             <artifactId>jna-platform</artifactId>
             <version>5.15.0</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.github.oshi</groupId>
+                    <artifactId>*</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
     </dependencies>
@@ -233,6 +255,7 @@
                         <nativeImageArg>-libc=musl</nativeImageArg>
                     </nativeImageArgs>
                     -->
+                    <!-- za native ako je graalvm >=23 onda mora -initialize-at-run-time umesto build -->
                     <!-- Obavezno za jna lib ( oshi ) -->
                     <nativeImageArgs>
                         <nativeImageArg>--initialize-at-build-time=com.sun.jna.Structure</nativeImageArg>
@@ -242,6 +265,8 @@
                         <nativeImageArg>--initialize-at-build-time=com.sun.jna.Platform</nativeImageArg>
                         <nativeImageArg>--initialize-at-build-time=com.sun.jna.Native</nativeImageArg>
                         <nativeImageArg>--initialize-at-build-time=com.sun.jna.CallbackReference$AttachOptions</nativeImageArg>
+                        <!-- Obavezno za emoji -->
+                        <nativeImageArg>--initialize-at-build-time=com.gluonhq.emoji.EmojiData</nativeImageArg>
                     </nativeImageArgs>
                     <!-- Od plugina 1.0.24 i graalvm 23+ i javafx 23+ dostupan je buildArgs -->
                     <!--
@@ -266,7 +291,12 @@
                     <reflectionList>
                         <!--<list>org.kordamp.ikonli.javafx.FontIcon</list>  -->
                         <list>com.mycompany.atlantafx_gluon.User</list>  <!-- Obavezno za klasu koju koristi gluon connect -->
+                        <list>eu.hansolo.tilesfx.TileBuilder</list>
                         <list>net.datafaker.Faker</list>
+                        <!-- emoji  -->
+                        <list>com.gluonhq.emoji.Emoji</list>
+                        <list>com.gluonhq.emoji.EmojiData</list>
+                        <list>com.gluonhq.emoji.util.TextUtils</list>
                     </reflectionList>
                     <verbose>false</verbose>
                     <releaseConfiguration>
@@ -305,6 +335,11 @@
         <repository>
             <id>snapshots</id>
             <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
+        </repository>
+        <repository>
+            <id>ossrh-snapshot</id>
+            <name>Sonatype Nexus Snapshots</name>
+            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
         </repository>
     </repositories>
     <pluginRepositories>
