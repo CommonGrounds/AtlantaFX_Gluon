@@ -36,7 +36,6 @@ import org.kordamp.ikonli.material2.Material2OutlinedAL;
 import org.kordamp.ikonli.Ikon;
 import net.datafaker.Faker;
 
-import java.io.File;
 import java.util.Optional;
 import java.util.Random;
 
@@ -66,6 +65,9 @@ public class App extends Application {
     public static final StringProperty label_taxt = new SimpleStringProperty("Theme: ");
     Tooltip basicTtp = new Tooltip(toolbar_taxt.get());
     Label mem_label, cpu_label;
+    long total_time;
+    int count;
+    public static final StringProperty fps = new SimpleStringProperty("FPS: 0");
 
     static final String APP_ICON_PATH = Objects.requireNonNull(
             App.class.getResource(ASSETS_DIR + "icons/app-icon.png")
@@ -78,6 +80,7 @@ public class App extends Application {
 
     //------------------------------------------------------
     public void init() throws Exception {
+//        System.setProperty("javafx.animation.pulse","30");
 //        System.out.println("Method init()");
         System_Info.load_settings();
         try{
@@ -147,11 +150,28 @@ public class App extends Application {
         modalPane.setId("modalPane");
 
         stackPane = new StackPane(modalPane, createWelcomePane(stage), System_Info.notification()); // notification create and add to root stack pane
-        scene = new Scene(stackPane, System_Info.dimension.getWidth(), System_Info.dimension.getHeight());
+        Label lbl = new Label("---");
+        lbl.getStyleClass().addAll("fps_lbl");
+//        lbl.setMaxWidth(Double.MAX_VALUE);
+//        lbl.setAlignment(Pos.BOTTOM_RIGHT);  // Ako koristimo VBox umesto Pane
+        lbl.textProperty().bind(fps);
+        Pane root = new Pane(stackPane,lbl) {
+            @Override
+            protected void layoutChildren() {
+                Insets insets = getInsets();
+                stackPane.setLayoutX(insets.getLeft()); stackPane.setLayoutY(insets.getTop());
+                stackPane.setPrefWidth(insets.getLeft() + getWidth());
+                stackPane.setPrefHeight(insets.getTop() + getHeight());
+                lbl.setLayoutX(insets.getLeft()); lbl.setLayoutY(insets.getTop()+getHeight() - lbl.getHeight());
+                super.layoutChildren();
+            }
+        };
+        VBox.setVgrow(stackPane,Priority.ALWAYS);
+        scene = new Scene(root, System_Info.dimension.getWidth(), System_Info.dimension.getHeight());
         System.out.println("w: " + System_Info.dimension.getWidth() + ",h: " + System_Info.dimension.getHeight());
 //        scene.getStylesheets().add(ASSETS_DIR + "index.css"); // moze za native image ali ne moze za javafx:run
         if (SHOW_KEYBOARD) {
-            // TODO - ovako nema custom ikone na text kontroli
+            // IMPORTANT - ovako nema custom ikone na custom text kontroli
 //            scene.getStylesheets().add(new PrimerDark().getUserAgentStylesheet());  // 1. dodajemo glavnu theme a dole index posle
 //            scene.getStylesheets().add(new CupertinoLight().getUserAgentStylesheet());
             scene.getStylesheets().add(theme.getUserAgentStylesheet());
@@ -166,12 +186,27 @@ public class App extends Application {
         //       stage.setMaxWidth(1280);
         //       stage.setMaxHeight(900);
 
+        scene.addPreLayoutPulseListener(new Runnable() {
+            @Override
+            public void run() {
+//                System.out.println("PreLayoutPulseListener: " + System.currentTimeMillis());
+                count++;
+                if(System.currentTimeMillis() >= total_time + 1000){
+//                    System.out.println("FPS: " + count);
+                    fps.set("FPS: " + count);
+                    count = 0;
+                    total_time = System.currentTimeMillis();
+                }
+            }
+        });
+
         Platform.runLater(() -> {
             stage.show();
 //            stage.requestFocus();
             mem_usage_timer();
         });
     }
+
 
 
     //--------------------------------------------------------------------
@@ -293,9 +328,6 @@ public class App extends Application {
             modalPane.show(settingsDialog_2);
         });
         //--------------------------------------------------
-        var gridScroll = new ScrollPane(tile_card_dialog());    // IMPORTANT - Use ScrollPane za ceo VBox
-        gridScroll.setFitToWidth(true);
-        var card_dialog = gridScroll;
         var card_Btn = new Button(null, stackingExample());
         card_Btn.getStyleClass().addAll(
                 Styles.BUTTON_CIRCLE, Styles.FLAT, Styles.LARGE
@@ -303,7 +335,7 @@ public class App extends Application {
         card_Btn.setOnAction(evt -> {
             modalPane.setAlignment(Pos.TOP_CENTER);
             modalPane.usePredefinedTransitionFactories(Side.TOP);
-            modalPane.show(card_dialog);
+            modalPane.show(tile_card_dialog());
         });
         //--------------------------------------------------
         //######### ne koristim je ovde - samo primer ###########
@@ -602,9 +634,15 @@ public class App extends Application {
             modalPane.hide(true);
         });
         card_dialog.getChildren().add(back_btn);//.getDialogPane().setContent(lbl);
-        card_dialog.setPadding(new Insets(10, 0, 0, 10));
+        card_dialog.setPadding(new Insets(10, 10, 20, 10));
         card_dialog.setSpacing(20);
-        card_dialog.getChildren().addAll(Tile_Card_dialog.tile_example(), Tile_Card_dialog.card_example());
+        var scrolling_box = new VBox(Tile_Card_dialog.tile_example(), Tile_Card_dialog.card_example());
+        scrolling_box.setPadding(new Insets(0, 0, 40, 0));
+        scrolling_box.setSpacing(20);
+        var gridScroll = new ScrollPane(scrolling_box);            // IMPORTANT - Use ScrollPane za nov VBox ispod button
+        gridScroll.setFitToWidth(true);
+//        gridScroll.setFitToHeight(true);
+        card_dialog.getChildren().addAll(gridScroll);
         card_dialog.setAlignment(Pos.TOP_CENTER);
         if (theme.isDarkMode()) {
             card_dialog.setBackground(new Background(new BackgroundFill(Color.rgb(20, 20, 20, 1), null, null)));
@@ -633,9 +671,15 @@ public class App extends Application {
         chart_dialog.getChildren().add(back_btn);//.getDialogPane().setContent(lbl);
         chart_dialog.setPadding(new Insets(10, 0, 20, 0));
         chart_dialog.setSpacing(20);
-        chart_dialog.getChildren().addAll(Tile_Card_dialog.tile_example(), Chart_samples.Updating_2(), Chart_samples.areaChart(),
+        var scrolling_box = new VBox(Tile_Card_dialog.tile_example(), Chart_samples.Updating_2(), Chart_samples.areaChart(),
                 Chart_samples.stackedAreaChart(), Chart_samples.barChart(), Chart_samples.lineChart(), Chart_samples.bubbleChart(),
                 Chart_samples.pieChart(), Chart_samples.scatterChart());
+        scrolling_box.setPadding(new Insets(0, 0, 40, 0));
+        scrolling_box.setSpacing(20);
+        var gridScroll = new ScrollPane(scrolling_box);            // IMPORTANT - Use ScrollPane za nov unutrasnji VBox ispod button
+        gridScroll.setFitToWidth(true);
+//        gridScroll.setFitToHeight(true);
+        chart_dialog.getChildren().add(gridScroll);
         chart_dialog.setAlignment(Pos.TOP_CENTER);
         if (theme.isDarkMode()) {
             chart_dialog.setBackground(new Background(new BackgroundFill(Color.rgb(20, 20, 20, 1), null, null)));

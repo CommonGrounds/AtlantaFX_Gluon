@@ -245,6 +245,8 @@ public class System_Info {
         SystemInfo si = new SystemInfo();
         HardwareAbstractionLayer hal = si.getHardware();
         CentralProcessor cpu = hal.getProcessor();
+//        System.out.println("CurrentFreq: " + Arrays.toString(cpu.getCurrentFreq()));
+//        System.out.println("Name: " + cpu.getProcessorIdentifier().getName());
 
         double cpuLoad = cpu.getSystemCpuLoadBetweenTicks( prevTicks ) * 100;
         prevTicks = cpu.getSystemCpuLoadTicks();

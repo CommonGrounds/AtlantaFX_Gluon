@@ -55,7 +55,7 @@ public class Tile_Card_dialog {
         tile.setTitle("Tile primer");
 //        tile.getStyleClass().add(Styles.LARGE);   // ne radi za ceo Tile samo za pojedinacne el.
 //        tile.setBorder(Border.stroke(Paint.valueOf(String.valueOf(Color.BLUE))));
-        tile.setDescription(quote);
+        tile.setDescription(quote); // IMPORTANT - Auto BBCode parser
 
         var img = new ImageView(new Image(
                 Objects.requireNonNull(App.class.getResource(App.ASSETS_DIR + "images/avatars/avatar1.png")).toExternalForm()));

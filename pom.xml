@@ -12,7 +12,7 @@
         <maven.compiler.version>3.13.0</maven.compiler.version>
         <!-- <GRAALVM_HOME>/home/ryzen/GRAAL_VM/graalvm-java23-linux-amd64-gluon-23+25.1-dev</GRAALVM_HOME> -->
         <GRAALVM_HOME>/home/ryzen/GRAAL_VM/graalvm-svm-java17-linux-gluon-22.1.0.1-Final</GRAALVM_HOME>
-        <javafx.version>23.0.1</javafx.version>
+        <javafx.version>21.0.5</javafx.version>
         <connect.version>2.0.1</connect.version>
         <attach.version>4.0.21</attach.version>
         <javafx.plugin.version>0.0.8</javafx.plugin.version>
@@ -161,7 +161,6 @@
                     <artifactId>*</artifactId>
                 </exclusion>
             </exclusions>
-            <type>aar</type>
         </dependency>
         <!-- https://mvnrepository.com/artifact/net.java.dev.jna/jna-platform -->
         <dependency>
@@ -228,6 +227,7 @@
                 <artifactId>javafx-maven-plugin</artifactId>
                 <version>${javafx.plugin.version}</version>
                 <configuration>
+                    <!-- <commandlineArgs>-Djavafx.animation.pulse=30</commandlineArgs> -->
                     <stripDebug>true</stripDebug>
                     <compress>2</compress>
                     <noHeaderFiles>true</noHeaderFiles>
@@ -268,6 +268,7 @@
                         <!-- Obavezno za emoji -->
                         <nativeImageArg>--initialize-at-build-time=com.gluonhq.emoji.EmojiData</nativeImageArg>
                     </nativeImageArgs>
+                    <!-- <runtimeArgs>-Djavafx.animation.pulse=30</runtimeArgs> -->
                     <!-- Od plugina 1.0.24 i graalvm 23+ i javafx 23+ dostupan je buildArgs -->
                     <!--
                     <buildArgs>
@@ -314,10 +315,30 @@
 
     <profiles>
         <profile>
+            <id>desktop</id>
+            <properties>
+                <gluonfx.target>host</gluonfx.target>
+            </properties>
+        </profile>
+        <profile>
             <id>android</id>
             <properties>
                 <gluonfx.target>android</gluonfx.target>
             </properties>
+            <dependencies>
+                <dependency>
+                    <groupId>net.java.dev.jna</groupId>
+                    <artifactId>jna</artifactId>
+                    <version>5.15.0</version>
+                    <exclusions>
+                        <exclusion>
+                            <groupId>com.github.oshi</groupId>
+                            <artifactId>*</artifactId>
+                        </exclusion>
+                    </exclusions>
+                    <type>aar</type>
+                </dependency>
+            </dependencies>
         </profile>
         <profile>
             <id>ios</id>
