@@ -23,4 +23,5 @@ module com.mycompany.atlantafx_gluon {
     requires com.sun.jna;
     requires eu.hansolo.tilesfx;
     requires com.gluonhq.emoji;
+    requires org.controlsfx.controls;
 }

@@ -26,6 +26,11 @@
     -fx-background-color: text-area-background ;
 }
 
+.fps_lbl {
+   -fx-background-color: #7F0000 !important;
+   -fx-text-fill:white;
+}
+
 .text-area:focused {
 /*    -fx-border-color: #4169e1; */ /* royalblue */
 }
@@ -73,3 +78,14 @@
  /*   -fx-background-color:red; */
  /*   -fx-text-alignment: center; */
  }
+
+.rating > .container > .button {
+    -fx-background-color: transparent;
+/*    -fx-background-image: url("unselected-star.png");  */
+    -fx-background-size: 16px 16px;  /* dodato za podesavanje velicine controle - padding duplo manji */
+    -fx-padding: 8 8;  /* original -fx-padding: 16 16; */
+    -fx-background-image-repeat: no-repeat;
+}
+.rating > .container > .button.strong {
+/*    -fx-background-image: url("selected-star.png");  */
+}

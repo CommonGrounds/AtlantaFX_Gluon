@@ -51,7 +51,7 @@ import javafx.util.Duration;
 
 public class App extends Application {
 
-    static Theme theme;
+    public static Theme theme;
 
     Scene scene;
     static final boolean SHOW_KEYBOARD = true; // true za scene.addStyle da bi android imao soft keyboard

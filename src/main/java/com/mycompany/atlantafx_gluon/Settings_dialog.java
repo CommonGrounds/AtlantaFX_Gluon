@@ -4,9 +4,12 @@ import atlantafx.base.controls.Calendar;
 import atlantafx.base.controls.PasswordTextField;
 import atlantafx.base.layout.InputGroup;
 import atlantafx.base.theme.Styles;
+import com.gluonhq.emoji.Emoji;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.application.Platform;
+import javafx.event.ActionEvent;
 import javafx.geometry.Pos;
 import javafx.scene.Cursor;
 import javafx.scene.control.*;
@@ -19,12 +22,28 @@ import javafx.util.Duration;
 import org.kordamp.ikonli.feather.Feather;
 import org.kordamp.ikonli.javafx.FontIcon;
 
+import com.gluonhq.emoji.Emoji;
+import com.gluonhq.emoji.EmojiData;
+import com.mycompany.atlantafx_gluon.popup.EmojiPopup;
+
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 
 public class Settings_dialog {
+
+    static Font font;
+
+    static {
+        try {
+//            font = Font.loadFont(App.class.getResource("popup/fonts/TwitterColorEmoji-SVGinOT.ttf").toExternalForm(), 16);
+            font = Font.loadFont(Settings_dialog.class.getResource("/fonts/OpenSansEmoji.ttf").toExternalForm(), 20);
+            System.out.println("Loaded Font: " + font.getName());
+        } catch (Throwable t) {
+            t.printStackTrace();
+        }
+    }
 
     //------------------------------------------------------------------
     public static Calendar calendarExample() {
@@ -155,8 +174,13 @@ public class Settings_dialog {
     }
 
     //------------------------------------------
-    public static TextArea Text_Area(){
-        var txt_area = new TextArea();
+    public static VBox Text_Area(){
+//        var txt_area = new TextArea("Testing 1 2 3 😷 Chess:♕♔ Faces:😀😃😄");
+        // 🍄🐵🐒🐴🐺🍇🍈🍉🍊🍋🍌🍍🎃🎆🎇🌋🗻👓👞👠👢⛑🔔🔄🔃🏁🚩🎌
+        var txt_area = new TextArea("Emoji 123 \uD83C\uDF44\uD83D\uDC35\uD83D\uDC12\uD83D\uDC34\uD83D\uDC3A\uD83C\uDF47\uD83C\uDF48\uD83C\uDF49\uD83C\uDF4A" +
+                "\uD83C\uDF4B\uD83C\uDF4C\uD83C\uDF4D\uD83C\uDF83\uD83C\uDF86\uD83C\uDF87\uD83C\uDF0B\uD83D\uDDFB\uD83D\uDC53\uD83D\uDC5E\uD83D\uDC60\uD83D\uDC62⛑" +
+                "\uD83D\uDD14\uD83D\uDD04\uD83D\uDD03\uD83C\uDFC1\uD83D\uDEA9\uD83C\uDF8C");
+        txt_area.setFont(font);
 //        System.out.println(txt_area.getStyleClass());
         txt_area.getStyleClass().clear();     // Ne radi dobro sa atlantaFX pa mora 1. clean svih style
 //        txt_area.pseudoClassStateChanged(Styles.STATE_ACCENT,true);
@@ -165,9 +189,34 @@ public class Settings_dialog {
 //       txt_area.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 18));
         txt_area.setPromptText("promt text");
         txt_area.setWrapText(true);
-        txt_area.setMaxSize(300,100);
-        txt_area.setMinSize(300,100);
+        txt_area.setMaxSize(300,150);
+        txt_area.setMinSize(300,150);
+        txt_area.textProperty().addListener((observable, oldValue, newValue) -> {
+            //  in javaFX only the FX thread can modify the UI elements
+            Platform.runLater(new Runnable() {
+                @Override
+                public void run() {
+//                    System.out.println("old: " + oldValue + "\nnew: " + newValue);
+                }
+            });
+        });
 
-        return txt_area;
+        Button emojiButton = new Button(null, new FontIcon(Feather.SMILE));
+        emojiButton.getStyleClass().addAll(Styles.BUTTON_OUTLINED, Styles.BUTTON_ICON);
+        emojiButton.getStyleClass().add("emoji-button");
+        emojiButton.setOnAction(e -> {
+            EmojiPopup emojiPopup = new EmojiPopup();
+            emojiPopup.setOnAction(ev -> {
+                Emoji emoji = (Emoji) ev.getSource();
+//                editor.getActionFactory().insertEmoji(emoji).execute(new ActionEvent());
+                txt_area.insertText(txt_area.getLength(),emoji.character());
+                System.out.println("U+" + emoji.getUnified());
+            });
+            emojiPopup.show(emojiButton);
+        });
+        var box = new VBox(10,txt_area,emojiButton);
+        box.setAlignment(Pos.CENTER);
+
+        return box;
     }
 }

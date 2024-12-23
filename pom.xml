@@ -174,6 +174,12 @@
                 </exclusion>
             </exclusions>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/org.controlsfx/controlsfx -->
+        <dependency>
+            <groupId>org.controlsfx</groupId>
+            <artifactId>controlsfx</artifactId>
+            <version>11.2.1</version>
+        </dependency>
 
     </dependencies>
 
@@ -265,10 +271,17 @@
                         <nativeImageArg>--initialize-at-build-time=com.sun.jna.Platform</nativeImageArg>
                         <nativeImageArg>--initialize-at-build-time=com.sun.jna.Native</nativeImageArg>
                         <nativeImageArg>--initialize-at-build-time=com.sun.jna.CallbackReference$AttachOptions</nativeImageArg>
+                        <!-- Emoji popup -->
+                        <arg>-Duser.language=en</arg>
+                        <arg>-H:IncludeLocales=en</arg>
                         <!-- Obavezno za emoji -->
                         <nativeImageArg>--initialize-at-build-time=com.gluonhq.emoji.EmojiData</nativeImageArg>
                     </nativeImageArgs>
-                    <!-- <runtimeArgs>-Djavafx.animation.pulse=30</runtimeArgs> -->
+                    <!--
+                    <runtimeArgs>
+                        <runtimeArg>-Djavafx.animation.pulse=30</runtimeArg>
+                    </runtimeArgs>
+                    -->
                     <!-- Od plugina 1.0.24 i graalvm 23+ i javafx 23+ dostupan je buildArgs -->
                     <!--
                     <buildArgs>
@@ -300,6 +313,10 @@
                         <list>com.gluonhq.emoji.util.TextUtils</list>
                     </reflectionList>
                     <verbose>false</verbose>
+                    <!-- Obavezno za resource fajlove tipa .properties i sl. ( i18n , bundles ) -->
+                    <resourcesList>
+                        <list>emoji-popup_en.properties</list>
+                    </resourcesList>
                     <releaseConfiguration>
                     </releaseConfiguration>
                     <!-- Obavezno za resource fajlove tipa .properties i sl. ( i18n ) -->
