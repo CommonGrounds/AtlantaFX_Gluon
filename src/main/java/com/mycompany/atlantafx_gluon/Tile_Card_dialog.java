@@ -9,6 +9,7 @@ import atlantafx.base.theme.Styles;
 import atlantafx.base.theme.Tweaks;
 import atlantafx.base.util.BBCodeParser;
 import javafx.event.ActionEvent;
+import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.*;
@@ -26,6 +27,8 @@ import com.gluonhq.emoji.Emoji;
 import com.gluonhq.emoji.EmojiData;
 import com.gluonhq.emoji.util.TextUtils;
 
+import org.controlsfx.control.Rating;
+
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -39,6 +42,10 @@ public class Tile_Card_dialog {
     static TextFlow text_flow;
     public static final String orig_string = "Card Body with emoji mouse image and text - " +
             "koji bi trebao cat da se automatski formatira wave sa -fx-wrap-text: true; bicyclist u .css-u";
+    static ImageView img = new ImageView(new Image(
+            Objects.requireNonNull(App.class.getResource(App.ASSETS_DIR + "images/avatars/avatar1.png")).toExternalForm()));
+    static ImageView img2 = new ImageView(new Image(
+            Objects.requireNonNull(App.class.getResource(App.ASSETS_DIR + "images/avatars/avatar2.png")).toExternalForm()));
 
     @SuppressWarnings("never used")
     public static Tile tile_example() {
@@ -57,10 +64,6 @@ public class Tile_Card_dialog {
 //        tile.setBorder(Border.stroke(Paint.valueOf(String.valueOf(Color.BLUE))));
         tile.setDescription(quote); // IMPORTANT - Auto BBCode parser
 
-        var img = new ImageView(new Image(
-                Objects.requireNonNull(App.class.getResource(App.ASSETS_DIR + "images/avatars/avatar1.png")).toExternalForm()));
-        var img2 = new ImageView(new Image(
-                Objects.requireNonNull(App.class.getResource(App.ASSETS_DIR + "images/avatars/avatar2.png")).toExternalForm()));
         img.setFitWidth(64);
         img.setFitHeight(64);
         tile.setGraphic(img);
@@ -125,19 +128,71 @@ public class Tile_Card_dialog {
         title.getStyleClass().add(Styles.TITLE_4);
         tweetCard.setHeader(title);
 
-        var text = BBCodeParser.createFormattedText("[color=-color-success-emphasis]Body[/color] JavaFX is a Java library used to build " +
-                "Rich Internet Applications."); // textFlow se vraca
+        var text = BBCodeParser.createLayout( """
+                [color=-color-success-emphasis]Body[/color] x[sup][small]2[/small][/sup] , H[sub][small]2[/small][/sub]O, [s]crossed[/s] \
+                [u]under[/u] [size=small]size[/size] [email]dev@bbcode.org[/email] [code]code[/code] \
+                [label style='-fx-background-color:-color-success-muted']Background[/label][indent]Indent[/indent][indent=3]Indent=3[/indent]\
+                [hr/]\
+                [hr=5/]\
+                [left]left[/left][center]center[/center][right]right[/right]\
+                """); // textFlow se vraca - [size=8] moze u px, [hr/] i right,center moze samo kao VBox ( createLayout )
+        // table,quote br ( \n radi ) ne rade sa atlantaFX za sada
+        // znak \ se dodaje na kraju reda da se izbegne dodatni razmak izmedju donjeg reda ili u istom redu da se doda ili smanji razmak izmadju 2 reci ako moramo da
+        // formatiramo text u vise redova code-a
         text.setMaxWidth(260);
         tweetCard.setBody(text);
 
-        var footer = new HBox(10,
-                new FontIcon(Material2MZ.THUMB_UP),
-                new Label("861"),
+        var rating = new Rating(5,3);
+        rating.setPartialRating(true);
+//        rating.setScaleY(0.5);
+//        rating.setScaleX(0.5);       // Podesavanje u .css-u
+        rating.setOrientation(Orientation.HORIZONTAL);
+        var btn_up = new Button(null, new FontIcon(Material2MZ.THUMB_UP));
+        btn_up.getStyleClass().addAll(Styles.FLAT, Styles.SMALL,Styles.SUCCESS);
+        var btn_down = new Button(null, new FontIcon(Material2MZ.THUMB_DOWN));
+        btn_down.getStyleClass().addAll(Styles.FLAT, Styles.SMALL,Styles.DANGER);
+        var lbl_up = new Label("5");
+        var lbl_down = new Label("3");
+        btn_up.setOnAction(evt -> {
+            int f = Integer.parseInt(lbl_up.getText());
+            int d = Integer.parseInt(lbl_down.getText());
+            f++;
+            int sum = d + f;
+            lbl_up.setText(String.valueOf(f));
+            rating.setRating((double)rating.getMax() / ((double)sum/(double)f));
+        });
+        btn_down.setOnAction(evt -> {
+            int f = Integer.parseInt(lbl_up.getText());
+            int d = Integer.parseInt(lbl_down.getText());
+            d++;
+            int sum = d + f;
+            lbl_down.setText(String.valueOf(d));
+            rating.setRating((double)rating.getMax() / ((double)sum/(double)f));
+        });
+        int f = Integer.parseInt(lbl_up.getText());
+        int d = Integer.parseInt(lbl_down.getText());
+        int sum = d + f;
+        rating.setRating((double)rating.getMax() / ((double)sum/(double)f));
+
+        var left_box = new HBox(
+                btn_up,
+                lbl_up,
                 new Spacer(10),
-                new FontIcon(Material2MZ.THUMB_DOWN),
-                new Label("92")
+                btn_down,
+                lbl_down
         );
-        footer.setAlignment(Pos.CENTER_LEFT);
+        left_box.setAlignment(Pos.CENTER_LEFT);
+        left_box.setPrefWidth(System_Info.dimension.getWidth()/2);
+        var rating_box = new HBox(rating);
+        rating_box.setAlignment(Pos.CENTER_RIGHT);
+        rating_box.setPrefWidth(System_Info.dimension.getWidth()/2);
+//        rating_box.setMinHeight(left_box.getHeight()+16);
+
+        var footer = new HBox(
+                left_box,
+                rating_box
+        );
+        footer.setAlignment(Pos.BASELINE_LEFT);
         tweetCard.setFooter(footer);
 //        tweetCard.getStyleClass().add(Styles.DANGER);   // ne radi za card
 
